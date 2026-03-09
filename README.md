@@ -69,6 +69,24 @@ npm run build:app -- --app miapp --target deb --arch arm64
 
 Salida generada en `dist/<id-app>/`.
 
+## Empaquetar para Windows (x86 y x64)
+
+Comandos directos:
+
+```bash
+npm run build:win:x64 -- --app felizometro
+npm run build:win:x86 -- --app felizometro
+```
+
+Comando generico equivalente:
+
+```bash
+npm run build:app -- --app felizometro --platform win --target nsis --arch x64
+npm run build:app -- --app felizometro --platform win --target nsis --arch x86
+```
+
+Nota: para compilar instaladores Windows desde macOS/Linux, `electron-builder` puede requerir herramientas de cross-build (por ejemplo Wine). Si falla el empaquetado, la opcion mas estable es ejecutar el build en un runner Windows (GitHub Actions) o en una maquina Windows.
+
 ## Actualizaciones automaticas (electron-updater)
 
 El proyecto ya incluye soporte para `electron-updater` usando provider `generic`.
@@ -127,6 +145,7 @@ Guia completa:
 Automatizacion de releases con GitHub Actions:
 
 - `.github/workflows/release.yml`
+- `.github/workflows/release-windows.yml`
 - `docs/github-actions-release.md`
 
 ## Nota de rendimiento para Raspberry Pi
@@ -134,3 +153,25 @@ Automatizacion de releases con GitHub Actions:
 - Usa una sola ventana por app.
 - Evita abrir herramientas de desarrollo en produccion.
 - Si una web consume mucho, considera bajar resolucion (`width`/`height`) o usar modo kiosk/fullscreen.
+
+## Troubleshooting EGL (Raspberry Pi)
+
+Si ves logs como:
+
+`ERROR:ui/gl/gl_display.cc:... eglQueryDeviceAttribEXT: Bad attribute`
+
+Normalmente es un warning del driver EGL/Mesa durante deteccion de GPU en Chromium.
+
+Para evitar problemas graficos, configura render por software en `config/apps.json`:
+
+```json
+"graphics": {
+  "mode": "software"
+}
+```
+
+Valores soportados:
+
+- `auto` (por defecto)
+- `hardware`
+- `software`

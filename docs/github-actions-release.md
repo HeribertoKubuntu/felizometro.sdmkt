@@ -1,6 +1,9 @@
 # GitHub Actions para publicar releases
 
-Workflow: `.github/workflows/release.yml`
+Workflows:
+
+- `.github/workflows/release.yml` (Linux ARM64)
+- `.github/workflows/release-windows.yml` (Windows x64 y x86)
 
 ## Como funciona
 
@@ -23,9 +26,18 @@ El workflow compila y adjunta al release:
 - `*.AppImage.blockmap`
 - `*.yml`
 
+Para Windows, el workflow tambien adjunta:
+
+- `*.exe`
+- `*.msi` (si aplica)
+- `*.blockmap`
+- `*.yml`
+
 ## Trigger manual
 
 En GitHub: `Actions` -> `Build and Release Electron App` -> `Run workflow`.
+
+Para Windows: `Actions` -> `Build and Release Windows` -> `Run workflow`.
 
 ## Recomendaciones
 
