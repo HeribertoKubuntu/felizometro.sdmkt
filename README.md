@@ -146,6 +146,7 @@ Automatizacion de releases con GitHub Actions:
 
 - `.github/workflows/release.yml`
 - `.github/workflows/release-windows.yml`
+- `.github/workflows/release-combined.yml`
 - `docs/github-actions-release.md`
 
 ## Nota de rendimiento para Raspberry Pi

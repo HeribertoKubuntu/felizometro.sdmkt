@@ -4,6 +4,7 @@ Workflows:
 
 - `.github/workflows/release.yml` (Linux ARM64)
 - `.github/workflows/release-windows.yml` (Windows x64 y x86)
+- `.github/workflows/release-combined.yml` (Linux ARM64 + Windows x64/x86 en un solo release)
 
 ## Como funciona
 
@@ -38,6 +39,13 @@ Para Windows, el workflow tambien adjunta:
 En GitHub: `Actions` -> `Build and Release Electron App` -> `Run workflow`.
 
 Para Windows: `Actions` -> `Build and Release Windows` -> `Run workflow`.
+
+Para combinado: `Actions` -> `Build and Release Combined` -> `Run workflow`.
+
+## Recomendacion de uso
+
+- Si quieres un solo release con todo, usa solo `Build and Release Combined`.
+- Evita disparar en paralelo los workflows individuales y el combinado para el mismo tag, porque podrias duplicar artefactos.
 
 ## Recomendaciones
 
