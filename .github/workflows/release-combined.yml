@@ -45,6 +45,30 @@ jobs:
           AUTO_UPDATE_GITHUB_OWNER: ${{ github.repository_owner }}
           AUTO_UPDATE_GITHUB_REPO: ${{ github.event.repository.name }}
 
+      - name: Validate Linux updater artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          yml_files=(dist/${APP_ID}/*.yml)
+          blockmap_files=(dist/${APP_ID}/*.blockmap)
+          appimage_files=(dist/${APP_ID}/*.AppImage)
+
+          if [ ${#yml_files[@]} -eq 0 ]; then
+            echo "Falta archivo .yml para updater en dist/${APP_ID}" >&2
+            exit 1
+          fi
+
+          if [ ${#blockmap_files[@]} -eq 0 ]; then
+            echo "Falta archivo .blockmap para updater en dist/${APP_ID}" >&2
+            exit 1
+          fi
+
+          if [ ${#appimage_files[@]} -eq 0 ]; then
+            echo "Falta archivo .AppImage en dist/${APP_ID}" >&2
+            exit 1
+          fi
+
       - name: Upload Linux artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -84,6 +108,26 @@ jobs:
           AUTO_UPDATE_PROVIDER: github
           AUTO_UPDATE_GITHUB_OWNER: ${{ github.repository_owner }}
           AUTO_UPDATE_GITHUB_REPO: ${{ github.event.repository.name }}
+
+      - name: Validate Windows updater artifacts
+        shell: pwsh
+        run: |
+          $dist = "dist/$env:APP_ID"
+          $yml = Get-ChildItem -Path $dist -Filter *.yml -ErrorAction SilentlyContinue
+          $blockmap = Get-ChildItem -Path $dist -Filter *.blockmap -ErrorAction SilentlyContinue
+          $executables = Get-ChildItem -Path $dist -Include *.exe,*.msi -File -ErrorAction SilentlyContinue
+
+          if (-not $yml) {
+            throw "Falta archivo .yml para updater en $dist"
+          }
+
+          if (-not $blockmap) {
+            throw "Falta archivo .blockmap para updater en $dist"
+          }
+
+          if (-not $executables) {
+            throw "No se encontro .exe o .msi en $dist"
+          }
 
       - name: Upload Windows artifacts
         uses: actions/upload-artifact@v4

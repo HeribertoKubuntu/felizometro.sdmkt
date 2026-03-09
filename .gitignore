@@ -2,3 +2,4 @@ node_modules/
 dist/
 build/*.json
 *.log
+README_Hery.md

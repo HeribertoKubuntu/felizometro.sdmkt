@@ -50,6 +50,26 @@ jobs:
           AUTO_UPDATE_GITHUB_OWNER: ${{ github.repository_owner }}
           AUTO_UPDATE_GITHUB_REPO: ${{ github.event.repository.name }}
 
+      - name: Validate updater artifacts
+        shell: pwsh
+        run: |
+          $dist = "dist/$env:APP_ID"
+          $yml = Get-ChildItem -Path $dist -Filter *.yml -ErrorAction SilentlyContinue
+          $blockmap = Get-ChildItem -Path $dist -Filter *.blockmap -ErrorAction SilentlyContinue
+          $executables = Get-ChildItem -Path $dist -Include *.exe,*.msi -File -ErrorAction SilentlyContinue
+
+          if (-not $yml) {
+            throw "Falta archivo .yml para updater en $dist"
+          }
+
+          if (-not $blockmap) {
+            throw "Falta archivo .blockmap para updater en $dist"
+          }
+
+          if (-not $executables) {
+            throw "No se encontro .exe o .msi en $dist"
+          }
+
       - name: Resolve release tag
         id: release_tag
         shell: bash

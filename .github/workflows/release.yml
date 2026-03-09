@@ -50,6 +50,30 @@ jobs:
           AUTO_UPDATE_GITHUB_OWNER: ${{ github.repository_owner }}
           AUTO_UPDATE_GITHUB_REPO: ${{ github.event.repository.name }}
 
+      - name: Validate updater artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          yml_files=(dist/${APP_ID}/*.yml)
+          blockmap_files=(dist/${APP_ID}/*.blockmap)
+          appimage_files=(dist/${APP_ID}/*.AppImage)
+
+          if [ ${#yml_files[@]} -eq 0 ]; then
+            echo "Falta archivo .yml para updater en dist/${APP_ID}" >&2
+            exit 1
+          fi
+
+          if [ ${#blockmap_files[@]} -eq 0 ]; then
+            echo "Falta archivo .blockmap para updater en dist/${APP_ID}" >&2
+            exit 1
+          fi
+
+          if [ ${#appimage_files[@]} -eq 0 ]; then
+            echo "Falta archivo .AppImage en dist/${APP_ID}" >&2
+            exit 1
+          fi
+
       - name: Resolve release tag
         id: release_tag
         run: |

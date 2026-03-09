@@ -5,7 +5,13 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 
 function parseArgs(argv) {
-  const args = { appId: '', target: 'dir', arch: 'arm64', list: false };
+  const args = {
+    appId: '',
+    platform: 'linux',
+    target: 'dir',
+    arch: 'arm64',
+    list: false,
+  };
 
   for (let i = 0; i < argv.length; i += 1) {
     const token = argv[i];
@@ -18,6 +24,12 @@ function parseArgs(argv) {
 
     if ((token === '--target' || token === '-t') && argv[i + 1]) {
       args.target = argv[i + 1];
+      i += 1;
+      continue;
+    }
+
+    if ((token === '--platform' || token === '-p') && argv[i + 1]) {
+      args.platform = argv[i + 1];
       i += 1;
       continue;
     }
@@ -76,6 +88,10 @@ function buildConfig(appConfig) {
       category: 'Utility',
       executableName: appConfig.id,
     },
+    win: {
+      artifactName: '${productName}-${version}-${arch}.${ext}',
+      target: ['nsis'],
+    },
   };
 
   const updateProvider = appConfig?.autoUpdate?.provider || process.env.AUTO_UPDATE_PROVIDER || 'generic';
@@ -105,6 +121,7 @@ function buildConfig(appConfig) {
 
   if (appConfig.icon) {
     config.linux.icon = appConfig.icon;
+    config.win.icon = appConfig.icon;
   }
 
   const cfgPath = path.join(buildDir, `builder.${appConfig.id}.json`);
@@ -130,14 +147,23 @@ function main() {
 
   const cfgPath = buildConfig(selected);
   const binary = path.join(process.cwd(), 'node_modules', '.bin', 'electron-builder');
+  const normalizedArch = args.arch === 'x86' ? 'ia32' : args.arch;
+  const normalizedPlatform = args.platform.toLowerCase();
+
+  const platformSwitch =
+    normalizedPlatform === 'win' || normalizedPlatform === 'windows'
+      ? '--win'
+      : normalizedPlatform === 'mac' || normalizedPlatform === 'darwin'
+      ? '--mac'
+      : '--linux';
 
   const argsBuilder = [
     'build',
     '--config',
     cfgPath,
-    '--linux',
+    platformSwitch,
     args.target,
-    '--' + args.arch,
+    '--' + normalizedArch,
   ];
 
   const result = spawnSync(binary, argsBuilder, {

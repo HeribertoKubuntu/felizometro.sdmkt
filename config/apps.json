@@ -3,12 +3,15 @@
     {
       "id": "felizometro",
       "name": "Felizometro",
-      "url": "https://felizometro-app.sdmkt.org/login",
+      "url": "https://www.npmjs.com/package/nativefier",
       "width": 1280,
       "height": 800,
       "fullscreen": false,
       "kiosk": false,
       "userAgent": "",
+      "graphics": {
+        "mode": "software"
+      },
       "autoUpdate": {
         "enabled": true,
         "provider": "github",

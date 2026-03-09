@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node scripts/run-app.js",
     "list": "node scripts/run-app.js --list",
-    "build:app": "node scripts/package-app.js"
+    "build:app": "node scripts/package-app.js",
+    "build:win:x64": "node scripts/package-app.js --platform win --target nsis --arch x64",
+    "build:win:x86": "node scripts/package-app.js --platform win --target nsis --arch x86"
   },
   "keywords": [
     "electron",
@@ -19,7 +21,7 @@
   "type": "commonjs",
   "devDependencies": {
     "electron": "^37.5.0",
-    "electron-builder": "^26.0.12",
+    "electron-builder": "^26.8.1",
     "electron-updater": "^6.6.2"
   }
 }
