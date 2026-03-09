@@ -10,11 +10,11 @@
       "kiosk": false,
       "userAgent": "",
       "autoUpdate": {
-        "enabled": false,
-        "provider": "generic",
+        "enabled": true,
+        "provider": "github",
         "feedUrl": "",
-        "githubOwner": "",
-        "githubRepo": "",
+        "githubOwner": "HeribertoKubuntu",
+        "githubRepo": "felizometro.sdmkt",
         "private": false
       },
       "icon": ""
