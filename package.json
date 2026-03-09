@@ -1,0 +1,25 @@
+{
+  "name": "hery_nativefier",
+  "version": "1.0.0",
+  "description": "Ligero wrapper web estilo nativefier para Raspberry Pi",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "node scripts/run-app.js",
+    "list": "node scripts/run-app.js --list",
+    "build:app": "node scripts/package-app.js"
+  },
+  "keywords": [
+    "electron",
+    "nativefier",
+    "raspberry-pi",
+    "web-wrapper"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^37.5.0",
+    "electron-builder": "^26.0.12",
+    "electron-updater": "^6.6.2"
+  }
+}

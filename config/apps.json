@@ -1,0 +1,23 @@
+{
+  "apps": [
+    {
+      "id": "felizometro",
+      "name": "Felizometro",
+      "url": "https://felizometro-app.sdmkt.org/login",
+      "width": 1280,
+      "height": 800,
+      "fullscreen": false,
+      "kiosk": false,
+      "userAgent": "",
+      "autoUpdate": {
+        "enabled": false,
+        "provider": "generic",
+        "feedUrl": "",
+        "githubOwner": "",
+        "githubRepo": "",
+        "private": false
+      },
+      "icon": ""
+    }
+  ]
+}
