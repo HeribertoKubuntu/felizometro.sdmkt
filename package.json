@@ -1,14 +1,21 @@
 {
   "name": "hery_nativefier",
+  "displayName": "FelizometroSD",
   "version": "1.0.0",
-  "description": "Ligero wrapper web estilo nativefier para Raspberry Pi",
+  "description": "Ligero wrapper web estilo nativefier para Raspberry Pi, winx86/x64 y macOS",
   "main": "src/main.js",
   "scripts": {
     "dev": "node scripts/run-app.js",
     "list": "node scripts/run-app.js --list",
-    "build:app": "node scripts/package-app.js",
+    "build:app:arm64": "node scripts/package-app.js",
+    "build:app:linux-x64": "node scripts/package-app.js --platform linux --target AppImage --arch x64",
     "build:win:x64": "node scripts/package-app.js --platform win --target nsis --arch x64",
-    "build:win:x86": "node scripts/package-app.js --platform win --target nsis --arch x86"
+    "build:win:x86": "node scripts/package-app.js --platform win --target nsis --arch x86",
+    "build:mac": "node scripts/package-app.js --platform mac --target dmg",
+    "banner:list": "node scripts/apply-banner-preset.js list",
+    "banner:actual": "node scripts/apply-banner-preset.js actual",
+    "banner:sobria": "node scripts/apply-banner-preset.js sobria",
+    "banner:intensa": "node scripts/apply-banner-preset.js intensa"
   },
   "keywords": [
     "electron",
@@ -23,5 +30,9 @@
     "electron": "^37.5.0",
     "electron-builder": "^26.8.1",
     "electron-updater": "^6.6.2"
+  },
+  "dependencies": {
+    "awesome-notifications": "^3.1.3",
+    "bootstrap": "^5.3.8"
   }
 }

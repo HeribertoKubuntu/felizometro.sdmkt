@@ -2,8 +2,9 @@
   "apps": [
     {
       "id": "felizometro",
-      "name": "Felizometro",
-      "url": "https://www.npmjs.com/package/nativefier",
+      "name": "Felizometro SD",
+      "windowTitle": "Felizometro",
+      "url": "https://felizometro-app.sdmkt.org/login",
       "width": 1280,
       "height": 800,
       "fullscreen": false,
@@ -11,6 +12,28 @@
       "userAgent": "",
       "graphics": {
         "mode": "software"
+      },
+      "welcome": {
+        "enabled": true,
+        "delayMs": 2200,
+        "developerName": "Heriberto Delgado",
+        "message": "Preparando el entorno para abrir la aplicacion..."
+      },
+      "connectivity": {
+        "enabled": true,
+        "checkIntervalMs": 30000,
+        "testUrl": "",
+        "notifyOnRestore": true,
+        "banner": {
+          "offlineMessage": "Felizometro SD: sin conexion a internet. Reintentando automaticamente...",
+          "restoredMessage": "Felizometro SD: Conexion restaurada correctamente.",
+          "offlineBackgroundColor": "#C2410C",
+          "restoredBackgroundColor": "#0F766E",
+          "textColor": "#FFFFFF",
+          "fontFamily": "Segoe UI, Arial, sans-serif",
+          "fontSizePx": 13,
+          "hideAfterMs": 2500
+        }
       },
       "autoUpdate": {
         "enabled": true,
@@ -20,7 +43,9 @@
         "githubRepo": "felizometro.sdmkt",
         "private": false
       },
-      "icon": ""
+      "icon": "assets/icons/app.ico",
+      "iconWin": "assets/icons/app.ico",
+      "iconMac": "assets/icons/app.icns"
     }
   ]
 }

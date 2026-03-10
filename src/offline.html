@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sin conexion</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../node_modules/awesome-notifications/dist/style.css" />
+    <style>
+      :root {
+        --bg-a: #dbeafe;
+        --bg-b: #f8fafc;
+        --bg-c: #e2e8f0;
+        --orb-1: rgba(14, 116, 144, 0.25);
+        --orb-2: rgba(30, 64, 175, 0.2);
+        --orb-3: rgba(15, 118, 110, 0.2);
+        --motion-scale: 0.88;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        position: relative;
+        background: linear-gradient(130deg, var(--bg-a), var(--bg-b) 45%, var(--bg-c));
+      }
+
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        inset: -20vmax;
+        pointer-events: none;
+        filter: blur(60px);
+        transform-origin: center;
+        will-change: transform;
+      }
+
+      body::before {
+        background:
+          radial-gradient(circle at 25% 30%, var(--orb-1) 0 12%, transparent 40%),
+          radial-gradient(circle at 70% 60%, var(--orb-2) 0 15%, transparent 42%);
+        animation: driftA 18s ease-in-out infinite alternate;
+      }
+
+      body::after {
+        background:
+          radial-gradient(circle at 30% 70%, var(--orb-3) 0 14%, transparent 40%),
+          radial-gradient(circle at 78% 22%, rgba(15, 23, 42, 0.1) 0 10%, transparent 38%);
+        animation: driftB 24s linear infinite;
+      }
+
+      .film-grain {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.06;
+        mix-blend-mode: multiply;
+        background-image: radial-gradient(rgba(15, 23, 42, 0.32) 0.6px, transparent 0.6px);
+        background-size: 3px 3px;
+        animation: grainShift 1.6s steps(6) infinite;
+      }
+
+      .offline-card {
+        position: relative;
+        z-index: 1;
+        max-width: 680px;
+        border-radius: 16px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        backdrop-filter: blur(2px);
+        animation: cardFloat 7.5s ease-in-out infinite;
+      }
+
+      @keyframes driftA {
+        from {
+          transform: translate3d(calc(-1.6% * var(--motion-scale)), calc(-0.8% * var(--motion-scale)), 0)
+            scale(1);
+        }
+        to {
+          transform: translate3d(calc(1.6% * var(--motion-scale)), calc(1.2% * var(--motion-scale)), 0)
+            scale(1.04);
+        }
+      }
+
+      @keyframes driftB {
+        from {
+          transform: rotate(0deg) scale(1);
+        }
+        to {
+          transform: rotate(3.5deg) scale(1.045);
+        }
+      }
+
+      @keyframes grainShift {
+        0% {
+          transform: translate(0, 0);
+        }
+        25% {
+          transform: translate(-2%, 1%);
+        }
+        50% {
+          transform: translate(1%, -1%);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+
+      @keyframes cardFloat {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        body::before,
+        body::after,
+        .film-grain,
+        .offline-card {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="d-flex align-items-center justify-content-center p-3">
+    <div class="film-grain" aria-hidden="true"></div>
+    <main class="card shadow offline-card w-100">
+      <div class="card-body p-4 p-md-5">
+        <h1 class="h4 mb-3">Sin conexion a internet</h1>
+        <p id="offlineMessage" class="text-secondary mb-4">
+          No se detecto conexion. La aplicacion seguira intentando reconectar automaticamente.
+        </p>
+        <div class="alert alert-warning mb-0" role="alert">
+          Revisa tu red. Al restablecerse la conexion, la aplicacion volvera a cargar el servicio.
+        </div>
+      </div>
+    </main>
+
+    <script src="../node_modules/awesome-notifications/dist/index.var.js"></script>
+    <script>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const message = params.get('message') ||
+          'No se detecto conexion. La aplicacion seguira intentando reconectar automaticamente.';
+
+        const offlineMessage = document.getElementById('offlineMessage');
+        offlineMessage.textContent = message;
+
+        if (window.AWN) {
+          const notifier = new window.AWN({
+            position: 'top-right',
+            maxNotifications: 1,
+            labels: {
+              warning: 'Sin conexion',
+            },
+          });
+          notifier.warning(message);
+        }
+      })();
+    </script>
+  </body>
+</html>

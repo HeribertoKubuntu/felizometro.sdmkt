@@ -3,3 +3,4 @@ dist/
 build/*.json
 *.log
 README_Hery.md
+docs/

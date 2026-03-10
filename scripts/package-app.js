@@ -82,6 +82,8 @@ function buildConfig(appConfig) {
     },
     files: ['src/**/*', 'package.json'],
     extraMetadata: {
+      name: appConfig.id,
+      productName: appConfig.name,
       main: 'src/main.js',
     },
     linux: {
@@ -122,6 +124,21 @@ function buildConfig(appConfig) {
   if (appConfig.icon) {
     config.linux.icon = appConfig.icon;
     config.win.icon = appConfig.icon;
+  }
+
+  const winIconPath = appConfig?.iconWin ? path.join(process.cwd(), appConfig.iconWin) : '';
+  const macIconPath = appConfig?.iconMac ? path.join(process.cwd(), appConfig.iconMac) : '';
+
+  // Keep builds working even if platform icon files are not added yet.
+  if (appConfig.iconWin && fs.existsSync(winIconPath)) {
+    config.win.icon = appConfig.iconWin;
+  }
+
+  if (appConfig.iconMac && fs.existsSync(macIconPath)) {
+    config.mac = {
+      ...(config.mac || {}),
+      icon: appConfig.iconMac,
+    };
   }
 
   const cfgPath = path.join(buildDir, `builder.${appConfig.id}.json`);

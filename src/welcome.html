@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bienvenida</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+      :root {
+        --bg-a: #dbeafe;
+        --bg-b: #f8fafc;
+        --bg-c: #e2e8f0;
+        --orb-1: rgba(14, 116, 144, 0.25);
+        --orb-2: rgba(30, 64, 175, 0.2);
+        --orb-3: rgba(15, 118, 110, 0.2);
+        --motion-scale: 0.88;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        position: relative;
+        background: linear-gradient(130deg, var(--bg-a), var(--bg-b) 45%, var(--bg-c));
+      }
+
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        inset: -20vmax;
+        pointer-events: none;
+        filter: blur(60px);
+        transform-origin: center;
+        will-change: transform;
+      }
+
+      body::before {
+        background:
+          radial-gradient(circle at 25% 30%, var(--orb-1) 0 12%, transparent 40%),
+          radial-gradient(circle at 70% 60%, var(--orb-2) 0 15%, transparent 42%);
+        animation: driftA 18s ease-in-out infinite alternate;
+      }
+
+      body::after {
+        background:
+          radial-gradient(circle at 30% 70%, var(--orb-3) 0 14%, transparent 40%),
+          radial-gradient(circle at 78% 22%, rgba(15, 23, 42, 0.1) 0 10%, transparent 38%);
+        animation: driftB 24s linear infinite;
+      }
+
+      .film-grain {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.06;
+        mix-blend-mode: multiply;
+        background-image: radial-gradient(rgba(15, 23, 42, 0.32) 0.6px, transparent 0.6px);
+        background-size: 3px 3px;
+        animation: grainShift 1.6s steps(6) infinite;
+      }
+
+      .welcome-card {
+        position: relative;
+        z-index: 1;
+        max-width: 760px;
+        border-radius: 18px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        backdrop-filter: blur(2px);
+        animation: cardFloat 7.5s ease-in-out infinite;
+      }
+
+      .brand-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #0f766e;
+        display: inline-block;
+        box-shadow: 0 0 0 rgba(15, 118, 110, 0.4);
+        animation: dotPulse 3s ease-out infinite;
+      }
+
+      @keyframes driftA {
+        from {
+          transform: translate3d(calc(-1.6% * var(--motion-scale)), calc(-0.8% * var(--motion-scale)), 0)
+            scale(1);
+        }
+        to {
+          transform: translate3d(calc(1.6% * var(--motion-scale)), calc(1.2% * var(--motion-scale)), 0)
+            scale(1.04);
+        }
+      }
+
+      @keyframes driftB {
+        from {
+          transform: rotate(0deg) scale(1);
+        }
+        to {
+          transform: rotate(3.5deg) scale(1.045);
+        }
+      }
+
+      @keyframes grainShift {
+        0% {
+          transform: translate(0, 0);
+        }
+        25% {
+          transform: translate(-2%, 1%);
+        }
+        50% {
+          transform: translate(1%, -1%);
+        }
+        100% {
+          transform: translate(0, 0);
+        }
+      }
+
+      @keyframes cardFloat {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+      }
+
+      @keyframes dotPulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.45);
+        }
+        70% {
+          box-shadow: 0 0 0 7px rgba(15, 118, 110, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(15, 118, 110, 0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        body::before,
+        body::after,
+        .film-grain,
+        .welcome-card,
+        .brand-dot {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="d-flex align-items-center justify-content-center p-3">
+    <div class="film-grain" aria-hidden="true"></div>
+    <main class="card shadow-sm welcome-card w-100">
+      <div class="card-body p-4 p-md-5">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="brand-dot"></span>
+          <span class="text-secondary small">Inicio de aplicacion</span>
+        </div>
+        <h1 id="appTitle" class="h3 mb-3">Bienvenido</h1>
+        <p id="welcomeMessage" class="text-secondary mb-4">
+          Preparando el entorno para abrir la aplicacion...
+        </p>
+        <div class="alert alert-light border mb-0" role="alert">
+          <strong>Desarrollado por:</strong>
+          <span id="developerName">Heriberto Delgado</span>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const appName = params.get('appName') || 'Aplicacion';
+        const developerName = params.get('developer') || 'Heriberto Delgado';
+        const message = params.get('message') || 'Preparando el entorno para abrir la aplicacion...';
+
+        document.getElementById('appTitle').textContent = `Bienvenido a ${appName}`;
+        document.getElementById('developerName').textContent = developerName;
+        document.getElementById('welcomeMessage').textContent = message;
+      })();
+    </script>
+  </body>
+</html>

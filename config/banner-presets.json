@@ -1,0 +1,22 @@
+{
+  "sobria": {
+    "offlineMessage": "Sin conexion a internet. Reintentando automaticamente...",
+    "restoredMessage": "Conexion restaurada.",
+    "offlineBackgroundColor": "#374151",
+    "restoredBackgroundColor": "#065F46",
+    "textColor": "#F9FAFB",
+    "fontFamily": "Segoe UI, Arial, sans-serif",
+    "fontSizePx": 13,
+    "hideAfterMs": 2200
+  },
+  "intensa": {
+    "offlineMessage": "SD Marketing: sin conexion a internet. Reintentando automaticamente...",
+    "restoredMessage": "SD Marketing: conexion restaurada correctamente.",
+    "offlineBackgroundColor": "#C2410C",
+    "restoredBackgroundColor": "#0F766E",
+    "textColor": "#FFFFFF",
+    "fontFamily": "Segoe UI, Arial, sans-serif",
+    "fontSizePx": 13,
+    "hideAfterMs": 2500
+  }
+}
