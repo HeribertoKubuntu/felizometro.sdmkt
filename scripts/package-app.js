@@ -85,6 +85,7 @@ function buildConfig(appConfig) {
       name: appConfig.id,
       productName: appConfig.name,
       main: 'src/main.js',
+      heryAppConfig: appConfig,
     },
     linux: {
       category: 'Utility',

@@ -106,6 +106,20 @@ function readConfigFromEnv() {
     }
   }
 
+  // En app empaquetada usamos la config embebida en package.json.
+  try {
+    const packagedPackageJsonPath = path.join(app.getAppPath(), 'package.json');
+    if (fs.existsSync(packagedPackageJsonPath)) {
+      const packagedRaw = fs.readFileSync(packagedPackageJsonPath, 'utf8');
+      const packaged = JSON.parse(packagedRaw);
+      if (packaged?.heryAppConfig && typeof packaged.heryAppConfig === 'object') {
+        return mergeWithDefaults(packaged.heryAppConfig);
+      }
+    }
+  } catch (error) {
+    console.warn('No se pudo leer config embebida del paquete:', error?.message || error);
+  }
+
   // Fallback para modo desarrollo cuando APP_CONFIG_JSON no esta definido.
   try {
     const appsPath = path.join(process.cwd(), 'config', 'apps.json');
